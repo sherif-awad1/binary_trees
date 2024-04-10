@@ -7,7 +7,7 @@
 
 /**
  * binary_tree_inorder - Function to traverse a binary tree in inorder
- * @tree: a pointer to the root node of the binary tree that you’re traversing
+ * @tree: pointer to the root node of the binary tree that you’re traversing
  * @func: function pointer points to function that takes
  *			int input and returns nothing
  */
