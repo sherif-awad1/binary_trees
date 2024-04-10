@@ -47,41 +47,41 @@ void binary_tree_inorder(const binary_tree_t *tree, void (*func)(int));
 void binary_tree_postorder(const binary_tree_t *tree, void (*func)(int));
 /* task 9 */
 size_t binary_tree_height(const binary_tree_t *tree);
-/* task  */
+/* task 10 */
+size_t binary_tree_depth(const binary_tree_t *tree);
+/* task 11 */
 
-/* task  */
+/* task 12 */
 
-/* task  */
+/* task 13 */
 
-/* task  */
+/* task 14 */
 
-/* task  */
+/* task 15 */
 
-/* task  */
+/* task 16 */
 
-/* task  */
+/* task 17 */
 
-/* task  */
+/* task 18 */
 
-/* task  */
+/* task 19 */
 
-/* task  */
+/* task 20 */
 
-/* task  */
+/* task 21 */
 
-/* task  */
+/* task 22 */
 
-/* task  */
+/* task 23 */
 
-/* task  */
+/* task 24 */
 
-/* task  */
+/* task 25 */
 
-/* task  */
+/* task 26 */
 
-/* task  */
-
-/* task  */
+/* task 27 */
 
 /* task  */
 
