@@ -10,7 +10,7 @@
 /**
  * binary_tree_nodes - Function to count number of non-leaf node in binary tree
  * @tree: pointer to the root node of the binary tree that we’re working with
- * Return: count of leaves and if tree is NULL return 0
+ * Return: number of node and if tree is NULL return 0
  */
 size_t binary_tree_nodes(const binary_tree_t *tree)
 {
