@@ -62,6 +62,12 @@ int binary_tree_is_full(const binary_tree_t *tree);
 int is_binary_tree_full(const binary_tree_t *tree);
 /* task 16 */
 
+unsigned char check_if_leaf_node(const binary_tree_t *node);
+size_t calculate_depth(const binary_tree_t *tree);
+const binary_tree_t *find_leaf_node(const binary_tree_t *tree);
+int check_if_perfect_recursive(const binary_tree_t *tree,
+		size_t leaf_depth, size_t level);
+int binary_tree_is_perfect(const binary_tree_t *tree);
 /* task 17 */
 
 /* task 18 */
