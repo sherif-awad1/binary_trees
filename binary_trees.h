@@ -69,7 +69,7 @@ int check_if_perfect_recursive(const binary_tree_t *tree,
 		size_t leaf_depth, size_t level);
 int binary_tree_is_perfect(const binary_tree_t *tree);
 /* task 17 */
-
+binary_tree_t *binary_tree_sibling(binary_tree_t *node);
 /* task 18 */
 
 /* task 19 */
