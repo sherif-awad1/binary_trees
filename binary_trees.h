@@ -54,7 +54,7 @@ size_t binary_tree_size(const binary_tree_t *tree);
 /* task 12 */
 size_t binary_tree_leaves(const binary_tree_t *tree);
 /* task 13 */
-
+size_t binary_tree_nodes(const binary_tree_t *tree);
 /* task 14 */
 
 /* task 15 */
