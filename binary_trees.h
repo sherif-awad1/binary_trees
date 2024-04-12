@@ -116,12 +116,32 @@ bst_t *bst_insert(bst_t **tree, int value);
 bst_t *array_to_bst(int *array, size_t size);
 /* task 27 */
 bst_t *bst_search(const bst_t *tree, int value);
+/* task 28 */
+bst_t *find_inorder_successor(bst_t *root);
+bst_t *delete_bst_node(bst_t *root, bst_t *node);
+bst_t *remove_bst_value_recursive(bst_t *root, bst_t *current_node, int value);
+bst_t *bst_remove(bst_t *root, int value);
 /* task  */
 
+/* task  */
 
+/* task  */
 
+/* task  */
 
+/* task  */
 
+/* task  */
+
+/* task  */
+
+/* task  */
+
+/* task  */
+
+/* task  */
+
+/* task  */
 
 
 #endif /* _BINARY_TREES_H_ */
