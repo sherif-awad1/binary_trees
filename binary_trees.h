@@ -108,7 +108,8 @@ binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree);
 /* task 23 */
 binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
 /* task 24 */
-
+int bst_helper(const binary_tree_t *tree, int min_val, int max_val);
+int binary_tree_is_bst(const binary_tree_t *tree);
 /* task 25 */
 
 /* task 26 */
