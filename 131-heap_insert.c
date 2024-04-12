@@ -10,45 +10,49 @@
  * heap_insert - Inserts a value into a Max Binary Heap
  * @root: Double pointer to the root node of the heap
  * @value: The value to insert into the heap
- * Return: Pointer to the inserted node
+ * Return: A pointer to the inserted node
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-	heap_t *tree, *newNode, *nodeToSwap;
-	int treeSize, leafCount, subtreeSize, bitMask, treeLevel, tempValue;
+	heap_t *currentNode, *newNode, *swapNode;
+	int totalNodes, leafCount, levelNodes, levelBit, treeLevel, swapValue;
 
-	/* If the pointer to the root is NULL, return NULL */
+	/* Check if root is NULL */
 	if (!root)
 		return (NULL);
-	/* If the heap is empty, create a new root node with the value */
+
+	/* Create a new node if heap is empty */
 	if (!(*root))
 		return (*root = binary_tree_node(NULL, value));
-	tree = *root;
-	/* Calculate the size of the heap */
-	treeSize = binary_tree_size(tree);
-	leafCount = treeSize;
-	/* Determine the level of the tree where the new node will be inserted */
-	for (treeLevel = 0, subtreeSize = 1; leafCount >= subtreeSize;
-			subtreeSize *= 2, treeLevel++)
-		leafCount -= subtreeSize;
-	/* Find the position to insert the new node */
-	for (bitMask = 1 << (treeLevel - 1); bitMask != 1; bitMask >>= 1)
-		tree = leafCount & bitMask ? tree->right : tree->left;
-	/* Create the new node and insert it into the tree */
-	newNode = binary_tree_node(tree, value);
-	/* Attach the new node to the appropriate child of the tree */
-	leafCount & 1 ? (tree->right = newNode) : (tree->left = newNode);
 
-	/* Swap the new node with its parent nodes to maintain max-heap property */
-	nodeToSwap = newNode;
-	while (nodeToSwap->parent && (nodeToSwap->n > nodeToSwap->parent->n))
+	/* Initialize variables */
+	currentNode = *root;
+	totalNodes = binary_tree_size(currentNode);
+	leafCount = totalNodes;
+
+	/* Calculate the number of nodes at the current level */
+	for (treeLevel = 0, levelNodes = 1; leafCount >= levelNodes; levelNodes *= 2, treeLevel++)
+		leafCount -= levelNodes;
+
+	/* Find the correct position for the new node */
+	for (levelBit = 1 << (treeLevel - 1); levelBit != 1; levelBit >>= 1)
+		currentNode = leafCount & levelBit ? currentNode->right : currentNode->left;
+
+	/* Insert the new node */
+	newNode = binary_tree_node(currentNode, value);
+	leafCount & 1 ? (currentNode->right = newNode) : (currentNode->left = newNode);
+
+	/* Swap nodes to maintain the Max Heap property */
+	swapNode = newNode;
+	for (; swapNode->parent && (swapNode->n > swapNode->parent->n); swapNode = swapNode->parent)
 	{
-		tempValue = nodeToSwap->n;
-		nodeToSwap->n = nodeToSwap->parent->n;
-		nodeToSwap->parent->n = tempValue;
+		swapValue = swapNode->n;
+		swapNode->n = swapNode->parent->n;
+		swapNode->parent->n = swapValue;
 		newNode = newNode->parent;
 	}
-	/* Return the pointer to the newly inserted node */
+
+	/* Return the new node */
 	return (newNode);
 }
 
@@ -59,11 +63,10 @@ heap_t *heap_insert(heap_t **root, int value)
  */
 size_t binary_tree_size(const binary_tree_t *tree)
 {
-	/* If the tree is NULL, its size is 0 */
+	/* Return 0 if tree is NULL */
 	if (!tree)
 		return (0);
 
-	/* Return the size of the left subtree + size of the right subtree + 1 */
+	/* Recursively calculate the size of the tree */
 	return (binary_tree_size(tree->left) + binary_tree_size(tree->right) + 1);
 }
-
