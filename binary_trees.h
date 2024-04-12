@@ -94,7 +94,8 @@ binary_tree_t *binary_tree_sibling(binary_tree_t *node);
 /* task 18 */
 binary_tree_t *binary_tree_uncle(binary_tree_t *node);
 /* task 19 */
-binary_tree_t *binary_trees_ancestor(const binary_tree_t *first, const binary_tree_t *second);
+binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
+		const binary_tree_t *second);
 /* task 20 */
 levelorder_queue_t *create_queue_node(binary_tree_t *tree_node);
 void push_node(binary_tree_t *tree_node, levelorder_queue_t *head,
@@ -121,8 +122,10 @@ bst_t *find_inorder_successor(bst_t *root);
 bst_t *delete_bst_node(bst_t *root, bst_t *node);
 bst_t *remove_bst_value_recursive(bst_t *root, bst_t *current_node, int value);
 bst_t *bst_remove(bst_t *root, int value);
-/* task  */
-
+/* task 29 */
+size_t treeHeight(const binary_tree_t *tree);
+int isAVLRecursive(const binary_tree_t *node, int minValue, int maxValue);
+int binary_tree_is_avl(const binary_tree_t *tree);
 /* task  */
 
 /* task  */
