@@ -106,7 +106,7 @@ int binary_tree_is_complete(const binary_tree_t *tree);
 /* task 22 */
 binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree);
 /* task 23 */
-
+binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
 /* task 24 */
 
 /* task 25 */
