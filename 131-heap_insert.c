@@ -31,20 +31,19 @@ heap_t *heap_insert(heap_t **root, int value)
 	leafCount = totalNodes;
 
 	/* Calculate the number of nodes at the current level */
-	for (treeLevel = 0, levelNodes = 1; leafCount >= levelNodes; levelNodes *= 2, treeLevel++)
+	for (treeLevel = 0, levelNodes = 1; leafCount >= levelNodes;
+			levelNodes *= 2, treeLevel++)
 		leafCount -= levelNodes;
-
-	/* Find the correct position for the new node */
 	for (levelBit = 1 << (treeLevel - 1); levelBit != 1; levelBit >>= 1)
-		currentNode = leafCount & levelBit ? currentNode->right : currentNode->left;
+		currentNode = leafCount & levelBit ?
+			currentNode->right : currentNode->left;
 
-	/* Insert the new node */
 	newNode = binary_tree_node(currentNode, value);
-	leafCount & 1 ? (currentNode->right = newNode) : (currentNode->left = newNode);
-
-	/* Swap nodes to maintain the Max Heap property */
+	leafCount & 1 ? (currentNode->right = newNode) :
+		(currentNode->left = newNode);
 	swapNode = newNode;
-	for (; swapNode->parent && (swapNode->n > swapNode->parent->n); swapNode = swapNode->parent)
+	for (; swapNode->parent && (swapNode->n > swapNode->parent->n);
+			swapNode = swapNode->parent)
 	{
 		swapValue = swapNode->n;
 		swapNode->n = swapNode->parent->n;
@@ -68,5 +67,6 @@ size_t binary_tree_size(const binary_tree_t *tree)
 		return (0);
 
 	/* Recursively calculate the size of the tree */
-	return (binary_tree_size(tree->left) + binary_tree_size(tree->right) + 1);
+	return (binary_tree_size(tree->left) +
+			binary_tree_size(tree->right) + 1);
 }
