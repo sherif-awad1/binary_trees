@@ -115,7 +115,7 @@ bst_t *bst_insert(bst_t **tree, int value);
 /* task 26 */
 bst_t *array_to_bst(int *array, size_t size);
 /* task 27 */
-
+bst_t *bst_search(const bst_t *tree, int value);
 /* task  */
 
 
