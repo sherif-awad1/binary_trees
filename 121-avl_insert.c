@@ -2,114 +2,128 @@
 * File: 121-avl_insert.c
 * Author: Sherif Awad
 */
-/* Include the header file for binary trees */
+/* Include the header file for AVL tree operations */
 #include "binary_trees.h"
 
+/* Function prototypes */
+
+size_t calculateHeight(const binary_tree_t *tree);
+int calculateBalance(const binary_tree_t *tree);
+avl_t *insertValueRecursively(avl_t **tree, avl_t *parent,
+		avl_t **newNode, int value);
+avl_t *avl_insert(avl_t **tree, int value);
+
 /**
- * binaryTreeHeight - Calculates the height of a binary tree.
- * @tree: Pointer to the root node of the binary tree.
- * Return: Height of the tree.
+ * calculateHeight - Calculate the height of a binary tree
+ * @tree: pointer to the root node of the tree to measure the height
+ * Return: the height of the tree If tree is NULL, return 0
  */
-size_t binaryTreeHeight(const binary_tree_t *tree)
+size_t calculateHeight(const binary_tree_t *tree)
 {
 	if (tree != NULL)
 	{
 		size_t leftHeight = 0, rightHeight = 0;
 
-		/* Calculate height of left subtree */
-		leftHeight = tree->left ? 1 + binaryTreeHeight(tree->left) : 1;
-		/* Calculate height of right subtree */
-		rightHeight = tree->right ? 1 + binaryTreeHeight(tree->right) : 1;
-		/* Return maximum of left and right subtree heights */
+		/* Calculate the height of the left subtree, if it exists */
+		leftHeight = tree->left ? 1 + calculateHeight(tree->left) : 1;
+		/* Calculate the height of the right subtree, if it exists */
+		rightHeight = tree->right ? 1 + calculateHeight(tree->right) : 1;
+
+		/* Return the greater of the two heights */
 		return ((leftHeight > rightHeight) ? leftHeight : rightHeight);
 	}
-	return (0); /* Empty tree has height 0 */
+	/* If the tree is NULL, the height is 0 */
+	return (0);
 }
 
 /**
- * binaryTreeBalance - Calculates the balance factor of a binary tree.
- * @tree: Pointer to the root node of the binary tree.
- * Return: Balance factor (left height - right height).
+ * calculateBalance - Compute the balance factor of a binary tree
+ * @tree: pointer to the root node of the tree to calculate the balance factor
+ * Return: the balance factor of the tree
+ *         If tree is NULL, return 0
  */
-int binaryTreeBalance(const binary_tree_t *tree)
+int calculateBalance(const binary_tree_t *tree)
 {
-	/* Calculate balance factor for a given node */
-	return (tree != NULL ? binaryTreeHeight(tree->left) -
-			binaryTreeHeight(tree->right) : 0);
+	/* balance factor is difference between heights of left and right subtrees */
+	return (tree != NULL ? calculateHeight(tree->left) -
+			calculateHeight(tree->right) : 0);
 }
 
 /**
- * avlInsertRecursive - Inserts a value into an AVL tree recursively.
- * @tree: Pointer to the root node of the AVL tree.
- * @parent: Pointer to the parent node.
- * @newNode: Pointer to store the newly inserted node.
- * @value: Value to insert.
- * Return: Pointer to the inserted node.
+ * insertValueRecursively - Recursively insert a value in an AVL tree
+ * @tree: double pointer to the root node of the AVL tree
+ * @parent: pointer to the parent node
+ * @newNode: double pointer to the newly inserted node
+ * @value: the value to insert in the tree
+ * Return: pointer to the inserted node
+ *         If the value is already present, return the existing node
+ *         If memory allocation fails, return NULL
  */
-avl_t *avlInsertRecursive(avl_t **tree, avl_t *parent,
+avl_t *insertValueRecursively(avl_t **tree, avl_t *parent,
 		avl_t **newNode, int value)
 {
 	int balanceFactor;
 
-	/* If tree is empty, create a new node */
 	if (*tree == NULL)
 		return (*newNode = binary_tree_node(parent, value));
-	/* Recursively insert into left or right subtree */
+
+	/* If value is less than current node's value, insert it into left subtree */
 	if ((*tree)->n > value)
 	{
-		(*tree)->left = avlInsertRecursive(&(*tree)->left, *tree, newNode, value);
+		(*tree)->left = insertValueRecursively(&(*tree)->left,
+				*tree, newNode, value);
+		/* If the left child could not be created, return NULL */
 		if ((*tree)->left == NULL)
 			return (NULL);
 	}
 	else if ((*tree)->n < value)
 	{
-		(*tree)->right = avlInsertRecursive(&(*tree)->right, *tree, newNode, value);
+		(*tree)->right = insertValueRecursively(&(*tree)->right,
+				*tree, newNode, value);
+		/* If the right child could not be created, return NULL */
 		if ((*tree)->right == NULL)
 			return (NULL);
 	}
 	else
-		/* Value already exists, no insertion needed */
 		return (*tree);
-
-	/* Update balance factor and perform rotations if necessary */
-	balanceFactor = binaryTreeBalance(*tree);
-	if (balanceFactor > 1 && (*tree)->left->n > value)
-		*tree = binary_tree_rotate_right(*tree);
-	else if (balanceFactor < -1 && (*tree)->right->n < value)
-		*tree = binary_tree_rotate_left(*tree);
-	else if (balanceFactor > 1 && (*tree)->left->n < value)
+	balanceFactor = calculateBalance(*tree);
+	if (balanceFactor > 1 && value < (*tree)->left->n)
+		return (binary_tree_rotate_right(*tree));
+	if (balanceFactor < -1 && value > (*tree)->right->n)
+		return (binary_tree_rotate_left(*tree));
+	if (balanceFactor > 1 && value > (*tree)->left->n)
 	{
 		(*tree)->left = binary_tree_rotate_left((*tree)->left);
-		*tree = binary_tree_rotate_right(*tree);
+		return (binary_tree_rotate_right(*tree));
 	}
-	else if (balanceFactor < -1 && (*tree)->right->n > value)
+	if (balanceFactor < -1 && value < (*tree)->right->n)
 	{
 		(*tree)->right = binary_tree_rotate_right((*tree)->right);
-		*tree = binary_tree_rotate_left(*tree);
+		return (binary_tree_rotate_left(*tree));
 	}
-
 	return (*tree);
 }
 
 /**
- * avl_insert - Inserts a value into an AVL tree.
- * @tree: Pointer to the root node of the AVL tree.
- * @value: Value to insert.
- * Return: Pointer to the newly inserted node.
+ * avl_insert - Insert a value in an AVL tree
+ * @tree: double pointer to the root node of the AVL tree
+ * @value: the value to insert in the tree
+ * Return: pointer to the newly inserted node
+ *         If the tree is NULL, return NULL
  */
 avl_t *avl_insert(avl_t **tree, int value)
 {
 	avl_t *newNode = NULL;
 
-	/* Handle empty tree case */
+	/* If the tree pointer is NULL, return NULL */
 	if (tree == NULL)
 		return (NULL);
+	/* If the tree is empty, create a new root node with the given value */
 	if (*tree == NULL)
 	{
 		*tree = binary_tree_node(NULL, value);
 		return (*tree);
 	}
-
-	/* Insert recursively and return the newly inserted node */
-	return (avlInsertRecursive(tree, *tree, &newNode, value));
+	insertValueRecursively(tree, *tree, &newNode, value);
+	return (newNode);
 }
