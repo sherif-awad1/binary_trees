@@ -126,8 +126,10 @@ bst_t *bst_remove(bst_t *root, int value);
 size_t treeHeight(const binary_tree_t *tree);
 int isAVLRecursive(const binary_tree_t *node, int minValue, int maxValue);
 int binary_tree_is_avl(const binary_tree_t *tree);
-/* task  */
-
+/* task 30 */
+avl_t *avl_insert(avl_t **tree, int value);
+size_t binaryTreeHeight(const binary_tree_t *tree);
+int binaryTreeBalance(const binary_tree_t *tree);
 /* task  */
 
 /* task  */
